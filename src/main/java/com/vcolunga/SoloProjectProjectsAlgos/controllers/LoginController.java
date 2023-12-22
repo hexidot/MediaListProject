@@ -7,12 +7,15 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.vcolunga.SoloProjectProjectsAlgos.models.Friend;
 import com.vcolunga.SoloProjectProjectsAlgos.models.LoginUser;
 import com.vcolunga.SoloProjectProjectsAlgos.models.User;
 import com.vcolunga.SoloProjectProjectsAlgos.services.UserService;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.jsp.jstl.sql.Result;
 import jakarta.validation.Valid;
 
 @Controller
@@ -78,5 +81,59 @@ public class LoginController {
 		session.invalidate();
 		return "redirect:/";
 	}
+	
+	@GetMapping("/home")
+	public String homePage() {
+		Long userId = (Long) session.getAttribute("userId");
+		
+		if(userId == null) {
+			return "redirect:/";
+		}
+		
+		return "home.jsp";
+	}
+	
+	@GetMapping("/friends")
+	public String friendsPage(Model model, @ModelAttribute("newFriend") Friend newFriend) {
+		Long userId = (Long) session.getAttribute("userId");
+		
+		if(userId == null) {
+			return "redirect:/";
+		}
+		
+		User currentUser = userService.findById(userId);
+		
+		model.addAttribute("currentUser", currentUser);
+		
+		return "friends.jsp";
+	}
+	
+	@PostMapping("/friends")
+	public String friendsAdd(@Valid @ModelAttribute("newFriend") Friend newFriend, BindingResult result, Model model) {
+
+		Long userId = (Long) session.getAttribute("userId");
+		
+		User currentUser = userService.findById(userId);
+		
+		model.addAttribute("currentUser", currentUser);
+		
+		if(newFriend.getFriendId() == null) {
+			result.rejectValue("friendId", "doesntExist", "This user does not exist!");
+		}
+		
+		if(result.hasErrors()) {
+			
+			model.addAttribute("newFriend", new Friend());
+			
+			return "friends.jsp";
+		}
+
+		User friend = userService.findById(newFriend.getFriendId());
+		
+		userService.addFriend(currentUser, friend);
+		
+		return "redirect:/friends";
+	}
+	
 	
 }

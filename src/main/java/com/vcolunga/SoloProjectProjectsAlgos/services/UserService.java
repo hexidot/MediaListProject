@@ -1,5 +1,6 @@
 package com.vcolunga.SoloProjectProjectsAlgos.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.mindrot.jbcrypt.BCrypt;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
 import com.vcolunga.SoloProjectProjectsAlgos.models.LoginUser;
+import com.vcolunga.SoloProjectProjectsAlgos.models.MediaList;
 import com.vcolunga.SoloProjectProjectsAlgos.models.User;
 import com.vcolunga.SoloProjectProjectsAlgos.repositories.UserRepository;
 
@@ -67,4 +69,22 @@ public class UserService {
 		
 		return optionalUser.get();
 	}
+	
+	public List<User> addFriend(User currentUser, User newFriend) {
+		currentUser.getFriendsList().add(newFriend);
+		newFriend.getFriendsList().add(currentUser);
+		userRepository.save(currentUser);
+		userRepository.save(newFriend);
+		return currentUser.getFriendsList();
+	}
+	
+	public List<MediaList> addList(User user1, User user2, MediaList mediaList) {
+		user1.getMediaLists().add(mediaList);
+		user2.getMediaLists().add(mediaList);
+		userRepository.save(user1);
+		userRepository.save(user2);
+		return user1.getMediaLists();
+	}
+	
+	
 }

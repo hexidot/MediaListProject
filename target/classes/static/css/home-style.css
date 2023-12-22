@@ -1,0 +1,10 @@
+@charset "ISO-8859-1";
+
+.container {
+    display: flex;
+    justify-content: space-evenly;
+}
+.card-container {
+    width: 25%;
+    text-align: center;
+}

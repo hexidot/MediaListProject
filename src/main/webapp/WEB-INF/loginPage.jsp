@@ -7,11 +7,11 @@
 <head>
     <meta charset="ISO-8859-1">
     <link rel="stylesheet" href="/css/login-style.css">
-    <title>Game Workshop</title>
+    <title>Login</title>
 </head>
 <body>
     <header>
-        <h1>Welcome to the Game Workshop!</h1> 
+        <h1>Welcome! Please log in or register!</h1> 
     </header>
     <main>
         <form:form action="/register" method="post" modelAttribute="newUser">

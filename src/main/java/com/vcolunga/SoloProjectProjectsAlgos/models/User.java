@@ -53,6 +53,20 @@ public class User {
     		inverseJoinColumns = @JoinColumn(name = "friend_id")
     )
     private List<User> friendsList;
+    
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+    		name = "friends",
+    		joinColumns = @JoinColumn(name = "friend_id"),
+    		inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private List<User> friendsTo;
+    
+    @ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "users_lists",
+		joinColumns = @JoinColumn(name = "user_id"),
+		inverseJoinColumns = @JoinColumn(name = "list_id"))
+	private List<MediaList> mediaLists;
 	
 	@Column(updatable=false)
 	@DateTimeFormat(pattern="yyyy-MM-dd")
@@ -110,5 +124,29 @@ public class User {
 
 	public void setConfirm(String confirm) {
 		this.confirm = confirm;
+	}
+
+	public List<User> getFriendsList() {
+		return friendsList;
+	}
+
+	public void setFriendsList(List<User> friendsList) {
+		this.friendsList = friendsList;
+	}
+
+	public List<User> getFriendsTo() {
+		return friendsTo;
+	}
+
+	public void setFriendsTo(List<User> friendsTo) {
+		this.friendsTo = friendsTo;
+	}
+
+	public List<MediaList> getMediaLists() {
+		return mediaLists;
+	}
+
+	public void setMediaLists(List<MediaList> mediaLists) {
+		this.mediaLists = mediaLists;
 	}
 }
