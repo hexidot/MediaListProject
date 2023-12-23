@@ -56,7 +56,7 @@
         <main class="p-5">
             <form:form action="/friends" method="post" class="p-5" modelAttribute="newFriend">
                 <form:input type="text" path="friendId" placeholder="Add user by ID!" class="d-block mx-auto w-100 mb-3"/>
-                <form:errors path="friendId"/>
+                <form:errors path="friendId" element="p" class="text-danger"/>
                 <button type="submit" class="btn btn-primary ">Add friend!</button>
             </form:form>
             <div class="container p-4 bg-secondary d-block">

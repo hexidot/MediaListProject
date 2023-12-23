@@ -30,4 +30,15 @@ public class MediaListService {
 		}
 		return list.getUsers().get(0);
 	}
+	
+	public Boolean containsUser(MediaList mediaList, User user) {
+		if(mediaList.getUsers().get(0) == user || mediaList.getUsers().get(1) == user) {
+			return true;
+		}
+		return false;
+	}
+	
+	public void deleteMediaList(Long id) {
+		mediaListRepository.deleteById(id);
+	}
 }

@@ -117,13 +117,10 @@ public class LoginController {
 		
 		model.addAttribute("currentUser", currentUser);
 		
-		if(newFriend.getFriendId() == null) {
-			result.rejectValue("friendId", "doesntExist", "This user does not exist!");
+		if(userService.findById(newFriend.getFriendId()) == null) {
+			result.rejectValue("friendId", "doesNotExist", "This user does not exist!");
 		}
-		
 		if(result.hasErrors()) {
-			
-			model.addAttribute("newFriend", new Friend());
 			
 			return "friends.jsp";
 		}

@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ page isErrorPage="true" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -45,9 +48,36 @@
                 </div>
             </div>
         </nav>
-        <div class="text-primary p-4">
+        <div class="text-primary p-4 mb-5">
             <h1>Add To List:</h1>
         </div>
     </header>
+    <main class="px-5 m-5">
+        <form:form action="/lists/${currentList.id}/add" method="post" modelAttribute="newMedia">
+            <div class="mb-3">
+                <form:errors path="name" element="p" class="text-danger"/>
+                <form:label for="mediaName" class="form-label" path="name">Media Name</form:label>
+                <form:input type="text" class="form-control" id="mediaName" path="name"/>
+            </div>
+            <div class="mb-3">
+                <form:errors path="mediaType" element="p" class="text-danger"/>
+                <form:label for="mediaType" class="form-label" path="mediaType">Media Type</form:label>
+                <form:select class="form-control" id="mediaType" path="mediaType">
+                    <form:options items="${types}"/>
+                </form:select>
+            </div>
+            <div class="mb-3">
+                <form:errors path="description" element="p" class="text-danger"/>
+                <form:label for="description" class="form-label" path="name">Description</form:label>
+                <form:textarea class="form-control" path="description" id="description" rows="3"></form:textarea>
+            </div>
+
+            <form:errors path="parentList" element="p" class="text-danger"/>
+            <form:input type="hidden" path="parentList" value="${currentList.id}"/>
+
+            <button type="submit" class="btn btn-primary mx-auto d-block">Add!</button>
+
+        </form:form>
+    </main>
 </body>
 </html>

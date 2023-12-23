@@ -55,7 +55,13 @@
 	<main class="container d-flex flex-column">
 		<c:forEach var="list" items="${currentUser.mediaLists}">
 			<div>
-				<label><c:out value="${MLService.findOppositeUser(list, currentUser).userName}"/></label>
+				<div class="d-flex flex-row justify-content-between align-items-center">
+					<label class="mb-0"><c:out value="${MLService.findOppositeUser(list, currentUser).userName}"/></label>
+					<form action="/lists/${list.id}/delete" method="post" class="p-1">
+						<input type="hidden" name="_method" value="delete">
+						<button type="submit" class="btn btn-danger">Delete</button>
+					</form>
+				</div>
 				<div class="bg-secondary mb-3 py-4 d-flex justify-content-center">
 					<a href="/lists/${list.id}" class="btn btn-light text-center">Your List</a>
 				</div>

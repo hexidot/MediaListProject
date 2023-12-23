@@ -13,10 +13,9 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
         <link rel="stylesheet" href="/css/home-style.css">
 
-
         <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-        
-        <title>Media List</title>
+
+        <title><c:out value="${currentMedia.name}"/></title>
     </head>
     <body>
         <header>
@@ -48,28 +47,33 @@
                     </div>
                 </div>
             </nav>
-            <div class="text-primary p-4">
-                <h1>Your List with <c:out value="${friend}"/></h1>
+            <div class="text-primary p-4 d-flex justify-content-between">
+                <h1><c:out value="${currentMedia.name}"/></h1>
+                <a href="/lists/${currentMedia.parentList.id}" class="text-primary">Back to List</a>
             </div>
         </header>
-
-        <main class="p-5">
-            <div class="container bg-dark d-block p-2 w-100 mb-3">
-                <ul class="list-group">
-                    <c:choose>
-                        <c:when test="${currentList.mediaList.size() != 0}">
-                            <c:forEach var="media" items="${currentList.mediaList}">
-                                <li class="list-group-item"><a href="/media/${media.id}"><c:out value="${media.name}"/></a></li>
-                            </c:forEach>
-                        </c:when>
-                        <c:otherwise>
-                            <li class="list-group-item">Your media list is currently empty!</li>
-                        </c:otherwise>
-                    </c:choose>
-                </ul>
-
+        <main class="px-5 m-5">
+            <div class="container p-1 flex-column">
+                <div class="mb-3 d-flex">
+                    <label for="mediaType" class="w-25">Media Type: </label>
+                    <p id="mediaType" class=" flex-grow-1"><c:out value="${currentMedia.mediaType}"/></p>
+                </div>
+                <c:if test="${MLService.containsUser(currentMedia.parentList, currentUser)}">
+                    <div class="mb-3 d-flex">
+                        <label for="description" class="w-25">Description: </label>
+                        <p id="description"><c:out value="${currentMedia.description}"/></p>
+                    </div>
+                    <div class="mb-3 d-flex">
+                        <div class="w-25">
+                            <a href="/media/${currentMedia.id}/edit" class="btn btn-primary">Edit</a>
+                        </div>
+                        <form action="/media/${currentMedia.id}/delete" method="post">
+                            <input type="hidden" name="_method" value="delete">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </div>
+                </c:if>
             </div>
-            <div class="d-flex justify-content-end w-75"><a href="/lists/${currentList.id}/add" class="btn btn-primary">Create a New Item!</a></div>
         </main>
     </body>
 </html>
